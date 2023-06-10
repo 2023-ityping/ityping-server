@@ -6,7 +6,7 @@ const cors = require('cors');
 const session = require('express-session');
 // CORS 설정
 app.use(express.json());
-app.use(cors());
+// app.use(cors());
 
 app.use(session({
     secret: '1234', // 세션 데이터 암호화를 위한 비밀 키
@@ -36,11 +36,11 @@ app.post('/api/signup', (req, res) => {
 });
 
 app.post('/api/login', (req, res) => {
+    console.log("login")
     const { email, password } = req.body;
     // 실제 로그인 검증 로직
-    connection.query(
-        'SELECT * FROM users WHERE email = ?', [email],
-        (err, results) => {
+    const query = 'SELECT * FROM users WHERE email = ?'
+    connection.query(query, [email], (err, results) => {
             if (err) {
                 console.error('데이터베이스 조회 오류:', err);
                 res.status(500).json({ message: '서버 오류' });
