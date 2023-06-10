@@ -28,10 +28,9 @@ app.post('/api/signup', (req, res) => {
         if (error) {
             console.error('회원가입 중 오류 발생:', error);
             res.status(500).json({ error: '회원가입에 실패했습니다.' });
-        } else {
-            console.log('회원가입 성공:', results);
-            res.status(200).json({ message: '회원가입이 성공적으로 완료되었습니다.' });
         }
+        console.log('회원가입 성공:', results);
+        res.json({ message: '회원가입이 성공적으로 완료되었습니다.' });
     });
 });
 
