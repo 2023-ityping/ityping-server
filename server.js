@@ -40,31 +40,30 @@ app.post('/api/login', (req, res) => {
     // 실제 로그인 검증 로직
     const query = 'SELECT * FROM users WHERE email = ?'
     connection.query(query, [email], (err, results) => {
-            if (err) {
-                console.error('데이터베이스 조회 오류:', err);
-                res.status(500).json({ message: '서버 오류' });
-                return;
-            }
-
-            if (results.length === 0) {
-                // 사용자가 존재하지 않는 경우
-                res.status(401).json({ message: '로그인 실패: 이메일 또는 닉네임 또는 비밀번호가 잘못되었습니다.' });
-                return;
-            }
-
-            const user = results[0];
-
-            if (user.pw !== password) {
-                // 비밀번호가 일치하지 않는 경우
-                res.status(401).json({ message: '로그인 실패: 이메일 또는 닉네임 또는 비밀번호가 잘못되었습니다.' });
-                return;
-            }
-
-            // 로그인 성공
-            req.session.user = user; // 세션에 사용자 정보 저장
-            res.json({ message: '로그인 성공', user });
+        if (err) {
+            console.error('데이터베이스 조회 오류:', err);
+            res.status(500).json({ message: '서버 오류' });
+            return;
         }
-    );
+
+        if (results.length === 0) {
+            // 사용자가 존재하지 않는 경우
+            res.status(401).json({ message: '로그인 실패: 이메일 또는 닉네임 또는 비밀번호가 잘못되었습니다.' });
+            return;
+        }
+
+        const user = results[0];
+
+        if (user.pw !== password) {
+            // 비밀번호가 일치하지 않는 경우
+            res.status(401).json({ message: '로그인 실패: 이메일 또는 닉네임 또는 비밀번호가 잘못되었습니다.' });
+            return;
+        }
+
+        // 로그인 성공
+        req.session.user = user; // 세션에 사용자 정보 저장
+        res.json({ message: '로그인 성공', user });
+    });
 });
 
 connection.connect((error) => {
