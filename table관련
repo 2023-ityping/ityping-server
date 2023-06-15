@@ -2,9 +2,9 @@ CREATE TABLE users (
   email VARCHAR(100) NOT NULL,
   pw VARCHAR(100),
   nickname VARCHAR(20) NOT NULL,
-  vscode INT,
-  intellj INT,
-  photo INT,
-  llu INT,
+  stu_emmat INT,
+  stu_shortcut INT,
+  pra_emmat INT,
+  pra_shortcut INT,
   PRIMARY KEY (email)
 );
