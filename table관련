@@ -6,5 +6,6 @@ CREATE TABLE users (
   stu_shortcut INT,
   pra_emmat INT,
   pra_shortcut INT,
+  game_score INT,
   PRIMARY KEY (email)
 );

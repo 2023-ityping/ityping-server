@@ -106,7 +106,19 @@ app.post('/api/update', (req, res) => {
 });
 
 // 게임 구현 
+app.post('api/game', (req, res) => {
+    const {nickname, score} = req.body;
 
+    const query = 'UPDATE users SET game_score = ? WHERE nickname = ?';
+    connection.query(query, [score, nickname], (error, results) => {
+        if(error){
+            console.log('게임 점수 중 오류 발생')
+            res.status(500).json({ error: '점수 입력에 실패했습니다.' });
+        }
+        console.log('게임 점수 성공:', results);
+        res.json({ message: '점수 입력이 성공적으로 완료되었습니다.' });
+    })
+})
 connection.connect((error) => {
     if (error) {
         console.error('데이터베이스 연결 실패:', error);
