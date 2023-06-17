@@ -1,9 +1,27 @@
 {
   "name": "ityping-server",
   "version": "0.1.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
-  
-  }
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/youjin0411/KeyStudy-server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/youjin0411/KeyStudy-server/issues"
+  },
+  "homepage": "https://github.com/youjin0411/KeyStudy-server#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.3.3"
+  },
+  "devDependencies": {},
+  "description": ""
 }
