@@ -1,17 +1,18 @@
-CREATE TABLE users (
-  email VARCHAR(100) NOT NULL,
-  pw VARCHAR(100),
-  nickname VARCHAR(20) NOT NULL,
-  stu_emmat INT,
-  stu_shortcut INT,
-  pra_emmat INT,
-  pra_shortcut INT,
-  game_score INT,
-  PRIMARY KEY (email)
-);
+-- CREATE TABLE users (
+--   email VARCHAR(100) NOT NULL,
+--   pw VARCHAR(100),
+--   nickname VARCHAR(20) NOT NULL,
+--   stu_emmat INT,
+--   stu_shortcut INT,
+--   pra_emmat INT,
+--   pra_shortcut INT,
+--   game_score INT,
+--   PRIMARY KEY (email)
+-- );
 
-create table game(
-  email VARCHAR(100) NOT NULL,
-  score INT,
-  gametype varchar(30)
-)
+-- create table game(
+--   email VARCHAR(100) NOT NULL,
+--   nickname varchar(20) not null,
+--   score INT,
+--   gametype varchar(30)
+-- )

@@ -95,29 +95,11 @@ app.post('/api/logout', (req, res) => {
     });
 });
 
-// 현재 학습률 저장 
-app.post('/api/update', (req, res) => {
-    // 클라이언트로부터 전달받은 사용자 정보
-    const { email, password, nickname } = req.body;
-
-    // TODO: 데이터베이스에 사용자 정보 저장 로직 구현
-    // 회원 정보를 데이터베이스에 저장
-    const query = 'UPDATE users SET nickname = ? WHERE email = ?';
-    connection.query(query, [nickname, email], (error, results) => {
-        if (error) {
-            console.error('회원가입 중 오류 발생:', error);
-            res.status(500).json({ error: '회원가입에 실패했습니다.' });
-        }
-        console.log('회원가입 성공:', results);
-        res.json({ message: '회원가입이 성공적으로 완료되었습니다.' });
-    });
-});
-
 // 게임 점수 저장
 app.post('/api/game', (req, res) => {
     const { email, name, score, gametype } = req.body;
     // TODO: 게임 점수를 데이터베이스에 저장하는 로직 구현
-    const query = 'INSERT INTO game (email, name, score, gametype) VALUES (?, ?, ?, ?)';
+    const query = 'INSERT INTO game (email, nickname, score, gametype) VALUES (?, ?, ?, ?)';
     connection.query(query, [email, name, score, gametype], (error, results) => {
         if (error) {
             console.error('게임 점수 저장 중 오류 발생:', error);
@@ -132,7 +114,7 @@ app.post('/api/game', (req, res) => {
 // 게임 랭킹 조회
 app.get('/api/gameRank', (req, res) => {
     // TODO: 게임 랭킹 데이터 조회 및 가공 로직 구현
-    const query = 'SELECT name, score FROM game ORDER BY score DESC';
+    const query = 'SELECT nickname, score FROM game ORDER BY score DESC';
     connection.query(query, (error, results) => {
         if (error) {
             console.error('게임 랭킹 조회 중 오류 발생:', error);
@@ -141,7 +123,7 @@ app.get('/api/gameRank', (req, res) => {
             console.log('게임 랭킹 조회 결과:', results);
             // 가공된 데이터 배열 생성
             const gameRank = results.map((result) => ({
-                name: result.name,
+                name: result.nickname,
                 score: result.score,
             }));
 
@@ -186,16 +168,75 @@ app.get('/api/gameMyRank', (req, res) => {
         });
     });
 });
-    const query = 'UPDATE users SET game_score = ? WHERE nickname = ?';
-    connection.query(query, [score, nickname], (error, results) => {
-        if(error){
-            console.log('게임 점수 중 오류 발생')
-            res.status(500).json({ error: '점수 입력에 실패했습니다.' });
+
+//현재 학습 저장 
+app.get('/api/update', (req, res) => {
+    const data = req.query.data; // 쿼리 매개변수에서 data 값을 가져옴
+    const email = req.query.email; // 쿼리 매개변수에서 email 값을 가져옴
+    const count = req.query.count; // 쿼리 매개변수에서 count 값을 가져옴
+  
+    let column;
+  
+    // 컬럼명 선택 로직
+    switch (data) {
+      case 'pra_shortcut':
+        column = 'pra_shortcut';
+        break;
+      case 'pra_emmat':
+        column = 'pra_emmat';
+        break;
+      case 'stu_shortcut':
+        column = 'stu_shortcut'
+        break;
+      case 'stu_emmat':
+        column = 'stu_emmat'
+        break;
+      default:
+        // 유효하지 않은 값 처리
+        return res.status(400).json({ error: '유효하지 않은 데이터입니다.' });
+    }
+  
+    // TODO: 가져온 값들을 이용하여 데이터베이스 업데이트 로직을 구현
+    const query = `UPDATE users SET ${column} = ? WHERE email = ?`;
+    connection.query(query, [count, email], (error, results) => {
+      if (error) {
+        console.error('데이터베이스 업데이트 중 오류 발생:', error);
+        res.status(500).json({ error: '데이터베이스 업데이트에 실패했습니다.' });
+      } else {
+        console.log('성공:', results);
+        // 예시로 응답을 보내는 부분입니다.
+        res.json({
+          success: true,
+          message: '데이터 업데이트가 완료되었습니다.'
+        });
+      }
+    });
+  });
+
+// 마이페이지 기록 출력
+app.get('/api/getrecord', (req, res) => {
+    const email = req.query.email; // 쿼리 매개변수에서 email 값을 가져옴
+  
+    // TODO: 이메일을 이용하여 기록 가져오는 로직 구현
+    const query = 'SELECT stu_emmat, stu_shortcut, pra_emmat, pra_shortcut FROM users WHERE email = ?';
+    connection.query(query, [email], (error, results) => {
+      if (error) {
+        console.error('기록 가져오기 중 오류 발생:', error);
+        res.status(500).json({ error: '기록 가져오기에 실패했습니다.' });
+      } else {
+        if (results.length > 0) {
+          console.log('기록 가져오기 성공:', results[0].stu_shortcut);
+          // 예시로 가져온 기록을 응답으로 보냅니다.
+          res.json({ success: true, records: results[0] });
+        } else {
+          console.log('기록이 없습니다.');
+          res.json({ success: true, records: {} });
         }
-        console.log('게임 점수 성공:', results);
-        res.json({ message: '점수 입력이 성공적으로 완료되었습니다.' });
-    })
-})
+      }
+    });
+  });
+  
+
 connection.connect((error) => {
     if (error) {
         console.error('데이터베이스 연결 실패:', error);
