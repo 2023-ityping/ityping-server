@@ -16,9 +16,20 @@ app.use((req, res, next) => {
 });
 
 app.use(session({
+    // 쿠키 식별자 설정
+    key: "loginSession",
     secret: '1234', // 세션 데이터 암호화를 위한 비밀 키
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
+    // 세션 저장 위치 설정(mysql)
+    store:new sessionStore({
+      host: "127.0.0.1",
+      port: 3306,
+      user: "root",
+      password: "#koldin13579",
+      database: "keystudy"
+    }),
+    cookie: { maxAge: 600000000, secure: false }
 }));
 
 const connection = mysql.createConnection(config);
