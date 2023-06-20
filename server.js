@@ -30,7 +30,7 @@ app.use(session({
     host: "127.0.0.1",
     port: 3306,
     user: "root",
-    password: "#koldin13579",
+    password: "1234",
     database: "keystudy"
   }),
   cookie: { maxAge: 600000000, secure: false }

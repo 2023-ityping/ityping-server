@@ -3,6 +3,6 @@
 module.exports = {
     host: 'localhost',
     user: 'root',
-    password: '#koldin13579',
+    password: '1234',
     database: 'keystudy'
 };
