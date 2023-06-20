@@ -1,19 +1,20 @@
 const express = require('express');
 const app = express();
 const mysql = require('mysql2');
+const cors = require('cors');
 const config = require('./config');
 const session = require('express-session');
+const sessionStore = require('express-mysql-session')(session)
+
 // CORS 설정
 app.use(express.json());
-// app.use(cors());
 
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    next();
-});
+// cors 옵션 설정
+app.use(cors({
+  origin: true,
+  credentials: true,
+  exposedHeaders: ["set-cookie"],
+}));
 
 app.use(session({
     // 쿠키 식별자 설정
@@ -76,7 +77,6 @@ app.post('/api/login', (req, res) => {
         }
         // 로그인 성공
         req.session.user = user; // 세션에 사용자 정보 저장
-        console.log(user)
         res.json({ message: '로그인 성공', user: { email: user.email, nickname: user.nickname } });
     });
 });
@@ -84,6 +84,7 @@ app.post('/api/login', (req, res) => {
 // 사용자 정보 조회 엔드포인트
 app.get('/api/user', (req, res) => {
     const user = req.session.user;
+    
     if (!user) {
       res.status(401).json({ message: '로그인이 필요합니다.' });
       return;
