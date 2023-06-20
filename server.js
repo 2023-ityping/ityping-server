@@ -43,9 +43,7 @@ app.post('/api/signup', (req, res) => {
 
 //로그인 
 app.post('/api/login', (req, res) => {
-    console.log("login")
     const { email, password } = req.body;
-
     // 실제 로그인 검증 로직
     const query = 'SELECT * FROM users WHERE email = ?';
     connection.query(query, [email], (err, results) => {
@@ -84,22 +82,23 @@ app.get('/api/user', (req, res) => {
 
 // 로그아웃 처리
 app.post('/api/logout', (req, res) => {
-    req.session.destroy((err) => {
-        if (err) {
-            console.log(err);
-            res.status(500).json({ message: '로그아웃 실패' });
-        } else {
-            res.clearCookie('connect.sid'); // 쿠키 삭제
-            res.json({ message: '로그아웃 성공' });
-        }
-    });
+  req.session.destroy((err) => {
+      if (err) {
+          console.log(err);
+          res.status(500).json({ message: '로그아웃 실패' });
+      } else {
+          res.clearCookie('connect.sid');
+          res.json({ message: '로그아웃 성공' });
+      }
+  });
 });
+
 
 // 게임 점수 저장
 app.post('/api/game', (req, res) => {
     const { email, name, score, gametype } = req.body;
     // TODO: 게임 점수를 데이터베이스에 저장하는 로직 구현
-    const query = 'INSERT INTO game (email, nickname, score, gametype) VALUES (?, ?, ?, ?)';
+    const query = 'INSERT INTO game (email, name, score, gametype) VALUES (?, ?, ?, ?)';
     connection.query(query, [email, name, score, gametype], (error, results) => {
         if (error) {
             console.error('게임 점수 저장 중 오류 발생:', error);
@@ -114,7 +113,7 @@ app.post('/api/game', (req, res) => {
 // 게임 랭킹 조회
 app.get('/api/gameRank', (req, res) => {
     // TODO: 게임 랭킹 데이터 조회 및 가공 로직 구현
-    const query = 'SELECT nickname, score FROM game ORDER BY score DESC';
+    const query = 'SELECT name, score FROM game ORDER BY score DESC';
     connection.query(query, (error, results) => {
         if (error) {
             console.error('게임 랭킹 조회 중 오류 발생:', error);
@@ -123,7 +122,7 @@ app.get('/api/gameRank', (req, res) => {
             console.log('게임 랭킹 조회 결과:', results);
             // 가공된 데이터 배열 생성
             const gameRank = results.map((result) => ({
-                name: result.nickname,
+                name: result.name,
                 score: result.score,
             }));
 
