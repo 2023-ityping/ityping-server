@@ -44,15 +44,13 @@ app.post('/api/logout', account.logout)
 
 
 // game 관련
-// 제안: /api/game/[이름] 형식으로 하면 좋을 듯.
-// restful api에서는 game-rank나 game/rank 형식을 사용하는 것으로 앎
 app.post('/api/game', game.saveScore)
-app.get('/api/gameRank', game.gameRank)
-app.get('/api/gameMyRank', game.myRank)
+app.get('/api/game/rank', game.gameRank)
+app.get('/api/game/my-rank', game.myRank)
 
 // 학습 기록 관련
-app.get('/api/update', study.studyUpdate)
-app.get('/api/getrecord', study.getRecord)
+app.put('/api/study/update', study.studyUpdate)
+app.get('/api/study/record', study.getRecord)
 
 connection.connect((error) => {
   if (error) {
