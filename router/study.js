@@ -61,7 +61,7 @@ module.exports = {
             // 예시로 가져온 기록을 응답으로 보냅니다.
             res.json({ success: true, records: results[0] });
         } catch (e) {
-            console.error('기록 가져오기 중 오류 발생:', error);
+            console.error('기록 가져오기 중 오류 발생:', e);
             res.status(500).json({ error: '기록 가져오기에 실패했습니다.' });
         }
     }

@@ -13,7 +13,7 @@ module.exports = {
             await connection.query(query, [email, password, nickname])
             res.json({ message: '회원가입이 성공적으로 완료되었습니다.' });
         } catch (e) {
-            console.error('회원가입 중 오류 발생:', error);
+            console.error('회원가입 중 오류 발생:', e);
             res.status(500).json({ error: '회원가입에 실패했습니다.' });
         }
     },
@@ -41,8 +41,8 @@ module.exports = {
             req.session.user = user; // 세션에 사용자 정보 저장
             res.json({ message: '로그인 성공', user: { email: user.email, nickname: user.nickname } });
         } catch (e) {
-            console.error('회원가입 중 오류 발생:', error);
-            res.status(500).json({ error: '회원가입에 실패했습니다.' });
+            console.error('로그인 중 오류 발생:', e);
+            res.status(500).json({ error: '로그인에 실패했습니다.' });
         }
     },
 
@@ -65,7 +65,7 @@ module.exports = {
             res.clearCookie('loginSession');
             res.json({ message: '로그아웃 성공' });
         } catch (e) {
-            console.log(err);
+            console.log(e);
             res.status(500).json({ message: '로그아웃 실패' });
             return
         }

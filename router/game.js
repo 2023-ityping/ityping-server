@@ -10,7 +10,7 @@ module.exports = {
             console.log('게임 점수 저장 성공:', results);
             res.json({ message: '게임 점수가 성공적으로 저장되었습니다.' });
         } catch (e) {
-            console.error('게임 점수 저장 중 오류 발생:', error);
+            console.error('게임 점수 저장 중 오류 발생:', e);
             res.status(500).json({ error: '게임 점수 저장에 실패했습니다.' });
         }
     },
@@ -30,7 +30,7 @@ module.exports = {
 
             res.json({ results: gameRank });
         } catch (e) {
-            console.error('게임 랭킹 조회 중 오류 발생:', error);
+            console.error('게임 랭킹 조회 중 오류 발생:', e);
             res.status(500).json({ error: '게임 랭킹 조회에 실패했습니다.' });
         }
     },
