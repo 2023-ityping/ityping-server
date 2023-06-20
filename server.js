@@ -42,7 +42,6 @@ app.post('/api/login', account.login)
 app.get('/api/user', account.getUserInfo)
 app.post('/api/logout', account.logout)
 
-
 // game 관련
 app.post('/api/game', game.saveScore)
 app.get('/api/game/rank', game.gameRank)
@@ -52,15 +51,6 @@ app.get('/api/game/my-rank', game.myRank)
 app.put('/api/study/update', study.studyUpdate)
 app.get('/api/study/record', study.getRecord)
 
-connection.connect((error) => {
-  if (error) {
-    console.error('데이터베이스 연결 실패:', error);
-    return;
-  }
-  console.log('데이터베이스에 연결되었습니다.');
-
-  // Express.js 서버 실행
-  app.listen(5000, () => {
-    console.log('서버가 5000번 포트에서 실행되었습니다.');
-  });
+app.listen(5000, () => {
+  console.log('서버가 5000번 포트에서 실행되었습니다.');
 });
