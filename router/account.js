@@ -5,7 +5,7 @@ module.exports = {
     signUp: async (req, res) => {
         // 클라이언트로부터 전달받은 사용자 정보
         const { email, password, nickname } = req.body;
-
+        console.log(req.body)
         // TODO: 데이터베이스에 사용자 정보 저장 로직 구현
         // 회원 정보를 데이터베이스에 저장
         const query = 'INSERT INTO users (email, pw, nickname) VALUES (?, ?, ?)';
@@ -20,6 +20,7 @@ module.exports = {
     //로그인 
     login: async (req, res) => {
         const { email, password } = req.body;
+        console.log(req.body)   
         // 실제 로그인 검증 로직
         const query = 'SELECT * FROM users WHERE email = ?';
         try {

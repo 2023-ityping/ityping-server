@@ -3,7 +3,7 @@ const app = express();
 const connection = require('./util/dbConn');
 const cors = require('cors');
 const session = require('express-session');
-const sessionStore = require('express-mysql-session')(session)
+const sessionStore = require('session-file-store')(session)
 
 const account = require('./router/account')
 const game = require('./router/game')
@@ -26,13 +26,7 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
   // 세션 저장 위치 설정(mysql)
-  store: new sessionStore({
-    host: "127.0.0.1",
-    port: 3306,
-    user: "root",
-    password: "1234",
-    database: "keystudy"
-  }),
+  store: new sessionStore(),
   cookie: { maxAge: 600000000, secure: false }
 }));
 

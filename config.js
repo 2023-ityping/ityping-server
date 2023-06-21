@@ -1,8 +1,9 @@
 // config.js
 
 module.exports = {
-    host: 'localhost',
+    host: '127.0.0.1',
     user: 'root',
     password: '1234',
-    database: 'keystudy'
+    database: 'keystudy',
+    port: 3306
 };
